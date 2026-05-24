@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps User Management App</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav>
+        <h1>DevOps User Management App</h1>
+    </nav>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>Register</h2>
+
+            <input type="text" id="registerName" placeholder="Name">
+
+            <input type="email" id="registerEmail" placeholder="Email">
+
+            <input type="password" id="registerPassword" placeholder="Password">
+
+            <button onclick="registerUser()">
+                Register
+            </button>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Login</h2>
+
+            <input type="email" id="loginEmail" placeholder="Email">
+
+            <input type="password" id="loginPassword" placeholder="Password">
+
+            <button onclick="loginUser()">
+                Login
+            </button>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Dashboard</h2>
+
+            <button onclick="loadDashboard()">
+                Load Dashboard
+            </button>
+
+            <button onclick="loadUsers()">
+                Load Users
+            </button>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Output</h2>
+
+            <pre id="output"></pre>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
