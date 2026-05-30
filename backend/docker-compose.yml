@@ -1,0 +1,40 @@
+services:
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend-app
+
+    ports:
+      - "3000:3000"
+
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: root123
+      DB_NAME: devops_app
+
+    depends_on:
+      - mysql
+
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8
+    container_name: mysql-db
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: devops_app
+
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
