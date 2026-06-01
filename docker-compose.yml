@@ -1,4 +1,15 @@
 services:
+
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: devops_app
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
   backend:
     build: ./backend
     ports:
@@ -11,15 +22,20 @@ services:
     depends_on:
       - mysql
 
-  mysql:
-    image: mysql:8
-    environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: devops_app
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:latest
     ports:
-      - "3307:3306"
+      - "8080:80"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
 
 volumes:
   mysql_data:

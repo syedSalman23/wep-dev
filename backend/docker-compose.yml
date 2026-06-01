@@ -1,38 +1,45 @@
 services:
 
-  backend:
-    build: ./backend
-    container_name: backend-app
-
-    ports:
-      - "3000:3000"
-
-    environment:
-      DB_HOST: mysql
-      DB_USER: root
-      DB_PASSWORD: root123
-      DB_NAME: devops_app
-
-    depends_on:
-      - mysql
-
-    restart: unless-stopped
-
   mysql:
     image: mysql:8
     container_name: mysql-db
-
     environment:
-      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: devops_app
-
     ports:
       - "3307:3306"
-
     volumes:
       - mysql_data:/var/lib/mysql
 
-    restart: unless-stopped
+  backend:
+    build: ./backend
+    container_name: backend-app
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: 1234
+      DB_NAME: devops_app
+    depends_on:
+      - mysql
+
+  frontend:
+    build: ./frontend
+    container_name: frontend-app
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
 
 volumes:
   mysql_data:
