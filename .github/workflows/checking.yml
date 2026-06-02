@@ -1,0 +1,20 @@
+name: Checking git actions  
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: show current directory
+        run: pwd
+      - name: List files in the current directory
+        run: ls -la
+      - name: Print hello world
+        run: echo "Hello, World!"
+       
