@@ -17,9 +17,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build Docker Image
-        working-directory: ./backend
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/wep-dev-backend:latest .
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Push Docker Image
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/wep-dev-backend:latest
+      - name: Build and Push Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          push: true
+          tags: syedsalmann/wep-dev-backend:latest
