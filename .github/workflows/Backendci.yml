@@ -20,9 +20,13 @@ jobs:
 
       - name: verify node version
         run: node -v
-        
+
       - name: verify npm version
         run: npm -v
+
+      - name: build docker image
+        working-directory: ./backend
+        run: docker build -t backend .
 
      
       
