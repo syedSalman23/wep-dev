@@ -1,32 +1,27 @@
-name: backend ci
+name: Backend CI/CD
+
 on:
   push:
-    branches:
-      - main
+
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
         with:
-          node-version: '20'
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Install dependencies
+      - name: Build Image
         working-directory: ./backend
-        run: npm install
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/wep-dev-backend:latest .
 
-      - name: verify node version
-        run: node -v
-
-      - name: verify npm version
-        run: npm -v
-
-      - name: build docker image
-        working-directory: ./backend
-        run: docker build -t backend .
-
-     
-      
+      - name: Push Image
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/wep-dev-backend:latest
